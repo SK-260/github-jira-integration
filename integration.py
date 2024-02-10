@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 # This code sample uses the 'requests' library:
 # http://docs.python-requests.org
 import requests
@@ -12,7 +12,7 @@ app = Flask(__name__)
 @app.route("/createJIRA", methods=['POST'])
 def createJIRA():
     url = "https://saikishanjira.atlassian.net/rest/api/3/issue"
-    github_payload = requests.json()
+    github_payload = request.json()
     print(github_payload)
     # Provide Your Email Address and API Token for username and password
     # you will have to create environment variables for these 2
