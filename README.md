@@ -4,7 +4,7 @@ The code in this repo can be used to automate the creation of Stories based on t
 
 ### Usage
 
-A new Server needs to be deployed and the python application needs to run on that server. You can use command 
+A python application is created using Flash framework which will expose the application on the server. You can use command 
 ```python
 python3 integration.py
 ```
