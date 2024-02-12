@@ -12,8 +12,8 @@ app = Flask(__name__)
 @app.route("/createJIRA", methods=['POST'])
 def createJIRA():
     url = "https://saikishanjira.atlassian.net/rest/api/3/issue"
-    github_payload = json.dumps(request.json)
-    print(github_payload, flush=True)
+    github_payload = request.get_json()
+    # print(github_payload, flush=True)
     # Provide Your Email Address and API Token for username and password
     # you will have to create environment variables for these 2
     EMAIL = os.getenv("EMAIL")
@@ -33,7 +33,7 @@ def createJIRA():
                     {
                         "content": [
                             {
-                                "text": "My First Jira Ticket.",
+                                "text": github_payload["issue"]["title"],
                                 "type": "text"
                             }
                         ],
@@ -53,20 +53,23 @@ def createJIRA():
                 # You can give the project key here
             },
 
-            "summary": "First, Jira Ticket",
+            "summary": github_payload["issue"]["title"],
         },
         "update": {}
     })
 
-    response = requests.request(
-        "POST",
-        url,
-        data=payload,
-        headers=headers,
-        auth=auth
-    )
+    if github_payload["comment"]["body"] == "/jira":
+        response = requests.request(
+            "POST",
+            url,
+            data=payload,
+            headers=headers,
+            auth=auth
+        )
 
-    return json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": "))
+        return json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": "))
+
+    return "Jira issue will be created if comment include /jira"
 
 
-app.run("0.0.0.0", port=5050,debug=True)
+app.run("0.0.0.0", port=5050)
