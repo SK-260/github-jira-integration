@@ -13,7 +13,7 @@ app = Flask(__name__)
 def createJIRA():
     url = "https://saikishanjira.atlassian.net/rest/api/3/issue"
     github_payload = json.dumps(Request.json)
-    print(github_payload)
+    print(github_payload, flush=True)
     # Provide Your Email Address and API Token for username and password
     # you will have to create environment variables for these 2
     EMAIL = os.getenv("EMAIL")
